@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #define W_MAX 100
 #define W_MIN 16
@@ -47,10 +45,10 @@ So long lives this, and this gives life to thee.";
 	int space_taken = 0;
 	int word_length = 0;
 
-	for (int i = 0, count = 1; text[i] != '\0'; i++, count++)
+	for (int i = 0, count = 1;; i++, count++)
 	{
 		// count word length and reset at a space
-		if (text[i] == ' ' || text[i] == '\n')
+		if (text[i] == ' ' || text[i] == '\n' || text[i] == '\0')
 		{
 			word_length = count - 1;
 			count = 0;
@@ -88,6 +86,14 @@ So long lives this, and this gives life to thee.";
 			for (int k = i - word_length; k <= i; k++)
 				putchar(text[k]);
 			word_length = 0;
+		}
+		else if (word_length > 0 && text[i] == '\0')
+		{
+			if (word_length + space_taken > line_len)
+				putchar('\n');
+			for (int k = i - word_length; k < i; k++)
+				putchar(text[k]);
+            		break;
 		}
 	}
 	putchar('\n');
